@@ -2,17 +2,19 @@
 #include <stdio.h>
 #include <string.h>
 #include "neurone.h"
+##include "nspio.h"
 
 int main(int argc, char const *argv[]) {
 
   struct Network * ns;
-
+/*
   switch (argc) {
 
     case 2:
       if (strcmp(argv[1],"-c")) {
         ns = creationManual();
       } else{
+        fprintf(stderr, "ARGV[0] : %s, ARGV[1] : %s, ARGV[2] : %s, ARGV[3] : %s,\n", argv[0],argv[1],argv[2],argv[3]);
         fprintf(stderr, "error : unknown switch %s\n",argv[1]);
         usage();
       }
@@ -20,8 +22,10 @@ int main(int argc, char const *argv[]) {
 
     case 3:
       if (strcmp(argv[1],"-c")) {
-        ns = creationAuto(argv[1]);
+        ns = creationAuto(ns,argv[2]);
+        fprintf(stderr, "ARGV[0] : %s, ARGV[1] : %s, ARGV[2] : %s, ARGV[3] : %s,\n", argv[0],argv[1],argv[2],argv[3]);
       } else if (strcmp(argv[1],"-cl")) {
+        fprintf(stderr, "ARGV[0] : %s, ARGV[1] : %s, ARGV[2] : %s, ARGV[3] : %s,\n", argv[0],argv[1],argv[2],argv[3]);
         ns = creationManual();
         learning(ns,argv[2]);
       } else{
@@ -32,14 +36,14 @@ int main(int argc, char const *argv[]) {
 
     case 4:
       if (strcmp(argv[1],"-l")) {
-        ns = loadNetwork(argv[1]);
-        learning(ns,argv[2]);
+        ns = loadNetwork(argv[2]);
+        learning(ns,argv[3]);
       } else if (strcmp(argv[1],"-cl")) {
-        ns = creationAuto(argv[1]);
-        learning(ns,argv[2]);
+        ns = creationAuto(ns,argv[2]);
+        learning(ns,argv[3]);
       } else if(strcmp(argv[1],"-w")){
-        ns = loadNetwork(argv[1]);
-        working(ns, argv[2]);
+        ns = loadNetwork(argv[2]);
+        working(ns, argv[3]);
       } else {
         fprintf(stderr, "error : unknown switch %s\n",argv[1]);
         usage();
@@ -51,6 +55,9 @@ int main(int argc, char const *argv[]) {
       usage();
       break;
   }
+*/
+
+  creationAuto(ns,argv[1]);
 
   return 0;
 }
@@ -83,12 +90,6 @@ struct Network * loadNetwork(const char * ai_file){
 
 struct Network * creationManual(){
   fprintf(stderr, "CreatNetMan\n");
-  struct Network * net;
-  return net;
-}
-
-struct Network * creationAuto(const char * ai_file){
-  fprintf(stderr, "CreatNetAuto\n");
   struct Network * net;
   return net;
 }
