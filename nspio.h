@@ -1,4 +1,3 @@
-#include "neurone.h"
 // PreProc variable
 
 // Data Structure

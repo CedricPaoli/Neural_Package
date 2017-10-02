@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "nspio.h"
+#include "nspstd.h"
 
 int main(int argc, char const *argv[]) {
 
@@ -37,10 +37,10 @@ int main(int argc, char const *argv[]) {
       if (!strcmp(argv[1],"-l")) {
         ns = loadNetwork(argv[2]);
         learning(ns,argv[3]);
-      } else if (!strcmp(argv[1],"-cl")) {
+      } else if (strcmp(argv[1],"-cl")) {
         ns = creationAuto(ns,argv[2]);
         learning(ns,argv[3]);
-      } else if(!strcmp(argv[1],"-w")){
+      } else if(strcmp(argv[1],"-w")){
         ns = loadNetwork(argv[2]);
         working(ns, argv[3]);
       } else {
@@ -80,12 +80,6 @@ void working(struct Network * ns,const char * data_file){
 
 struct Network * loadNetwork(const char * ai_file){
   fprintf(stderr, "LoadNet\n");
-  struct Network * net;
-  return net;
-}
-
-struct Network * creationManual(){
-  fprintf(stderr, "CreatNetMan\n");
   struct Network * net;
   return net;
 }

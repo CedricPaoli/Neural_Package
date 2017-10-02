@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "nspio.h"
+#include "neurone.h"
 
 void afficheNeurone(struct Neurone * neur,int n){
 
