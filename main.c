@@ -6,6 +6,7 @@
 int main(int argc, char const *argv[]) {
 
   struct Network * ns;
+  ns = malloc(sizeof(struct Network));
 
   switch (argc) {
 
@@ -81,5 +82,6 @@ void working(struct Network * ns,const char * data_file){
 struct Network * loadNetwork(const char * ai_file){
   fprintf(stderr, "LoadNet\n");
   struct Network * net;
+  net = NULL;
   return net;
 }

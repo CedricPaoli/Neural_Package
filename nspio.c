@@ -61,10 +61,8 @@ struct Network * creationAuto(struct Network * ns, const char * ai_file){
   fprintf(stderr, "**    Creation from file beginning    **\n");
   fprintf(stderr, "****************************************\n\n");
 
-  char cleaner[25];
   int layer;
-  int * nbl;
-  int i, j, k, curent_layer;
+  int i, j;
 
   FILE * file = NULL;
   file=fopen(ai_file,"r+");
