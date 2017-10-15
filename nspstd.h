@@ -11,3 +11,5 @@ void manualCompletionNetwork(struct Network * ns);
 void printNetwork (struct Network * ns);
 void freeNeuron(struct Neurone * n);
 void freeNetwork(struct Network * ns);
+
+// END
