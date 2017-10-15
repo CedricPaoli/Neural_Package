@@ -108,10 +108,10 @@ void autoCompletionNetwork(struct Network * ns){
   int j ;
   int k ;
   ns->tab = malloc(sizeof(struct Neurone **)*ns->number_of_layer);
-  fprintf(stderr, "Malloc 1 OK\n");
+  //fprintf(stderr, "Malloc 1 OK\n");
   for (i = 0; i < ns->number_of_layer; i++) {
-    fprintf(stderr, "Malloc %d OK\n",i);
     ns->tab[i] = malloc(sizeof(struct Neurone *)*ns->number_by_layer[i]);
+    //fprintf(stderr, "Malloc %d OK\n",i);
   }
 
   fprintf(stderr, "\n");
@@ -124,7 +124,7 @@ void autoCompletionNetwork(struct Network * ns){
     ns->tab[0][j]->value = (double)0.0;
     ns->tab[0][j]->sensibility = (double)0.0;
 
-    fprintf(stderr, "Couche 0 Neurone %d OK\n",j);
+    //fprintf(stderr, "Couche 0 Neurone %d OK\n",j);
   }
 
   // layer Ininialisation
@@ -141,7 +141,7 @@ void autoCompletionNetwork(struct Network * ns){
         ns->tab[i][j]->weight[k] = (double)1.0;
       }
 
-      fprintf(stderr, "Couche %d Neurone %d OK\n",i,j );
+      //fprintf(stderr, "Couche %d Neurone %d OK\n",i,j );
     }
   }
 
@@ -151,6 +151,8 @@ void autoCompletionNetwork(struct Network * ns){
   //ns->tab[1][1]->weight[1]= 2.0;
   //ns->tab[2][0]->biais = 5.5;
   //printNetwork(ns);
+
+  fprintf(stderr, "\n\nAutocompletion finish\n\n");
 
 }
 
