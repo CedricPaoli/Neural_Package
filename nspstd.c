@@ -80,6 +80,7 @@ struct Network * creationManual(){
   // [END] Spécifique Initialisation
 
   printNetwork(ns);
+  freeNetwork(ns);
 
   return ns;
 }
@@ -202,6 +203,23 @@ void manualCompletionNetwork(struct Network * ns){
     fprintf(stderr, "\n         -----------------------------------------\n\n");
   }
 
+}
+
+void freeNeuron(struct Neurone * n){
+  free(n->weight);
+  free(n);
+}
+
+void freeNetwork(struct Network * ns){
+  int i,j;
+
+  for ( i = 0; i < ns->number_of_layer; i++) {
+    for ( j = 0; j < ns->number_by_layer[i]; j++) {
+      freeNeuron(ns->tab[i][j]);
+    }
+  }
+  free(ns->number_by_layer);
+  free(ns);
 }
 
 void printNetwork (struct Network * ns){
