@@ -20,6 +20,7 @@ struct Network {
 
 // Function
 void usage();
+void validMain();
 void learning(struct Network * ns,const char * data_file);
 void working(struct Network * ns,const char * data_file);
 struct Network * loadNetwork(const char * ai_file);

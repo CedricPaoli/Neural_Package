@@ -1,4 +1,4 @@
-#include "/Users/paolicedric/Desktop/Neural_Package/headers/nspstd.h"
+#include "/Neural_Package/headers/nspstd.h"
 // PreProc variable
 #ifndef MAX_LENGTH_FILE_NAME
 #define MAX_LENGTH_FILE_NAME 256
@@ -10,7 +10,7 @@
 #define LENGTH_EXTENTION 4
 #endif
 #ifndef SAVING_FILE_NAME
-#define SAVING_FILE_NAME "nsp.ai"
+#define SAVING_FILE_NAME "/Neural_Package/ai/ns.ai"
 #endif
 
 // Data Structure

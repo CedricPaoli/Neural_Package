@@ -11,15 +11,13 @@ int main(int argc, char const *argv[]) {
   struct Network * ns;
   ns = malloc(sizeof(struct Network));
 
-  int secure = 0;
-  char answer[4];
-
   // Diff options of execution
   switch (argc) {
 
     case 2:
       if (!strcmp(argv[1],"-c")) {
         ns = creationManual(ns);
+        validMain(ns);
       } else{
         fprintf(stderr, "ARGV[0] : %s, ARGV[1] : %s, ARGV[2] : %s, ARGV[3] : %s,\n", argv[0],argv[1],argv[2],argv[3]);
         fprintf(stderr, "error : unknown switch %s\n",argv[1]);
@@ -30,10 +28,12 @@ int main(int argc, char const *argv[]) {
     case 3:
       if (!strcmp(argv[1],"-c")) {
         ns = creationAuto(ns,argv[2]);
+        validMain(ns);
       } else if (!strcmp(argv[1],"-cl")) {
         fprintf(stderr, "ARGV[0] : %s, ARGV[1] : %s, ARGV[2] : %s, ARGV[3] : %s,\n", argv[0],argv[1],argv[2],argv[3]);
         ns = creationManual(ns);
         learning(ns,argv[2]);
+        validMain(ns);
       } else{
         fprintf(stderr, "error : unknown switch %s\n",argv[1]);
         usage();
@@ -44,12 +44,15 @@ int main(int argc, char const *argv[]) {
       if (!strcmp(argv[1],"-l")) {
         ns = loadNetwork(argv[2]);
         learning(ns,argv[3]);
+        validMain(ns);
       } else if (strcmp(argv[1],"-cl")) {
         ns = creationAuto(ns,argv[2]);
         learning(ns,argv[3]);
+        validMain(ns);
       } else if(strcmp(argv[1],"-w")){
         ns = loadNetwork(argv[2]);
         working(ns, argv[3]);
+        validMain(ns);
       } else {
         fprintf(stderr, "error : unknown switch %s\n",argv[1]);
         usage();
@@ -61,6 +64,24 @@ int main(int argc, char const *argv[]) {
       usage();
       break;
   }
+
+  return 0;
+}
+
+void usage(){
+  fprintf(stderr, "usage : nsp <option> [<file.ai>] [<file.data>]\n");
+  fprintf(stderr, "     -c                            creation of a network\n");
+  fprintf(stderr, "     -c  <file.ai>                 creation of a default network from data in file.ai\n");
+  fprintf(stderr, "     -l  <file1.ai> <file.data>    learning from file.data \n");
+  fprintf(stderr, "     -cl <file.data>               creation of a network and learning from file.data\n");
+  fprintf(stderr, "     -cl <file.ai> <file.data>     creation of a default network from data in file.ai and learning from file.data\n");
+  fprintf(stderr, "     -w  <file.ai> <file.data>     apply the network on the datas\n\n\n");
+}
+
+void validMain(struct Network * ns){
+
+  int secure = 0;
+  char answer[4];
 
   // Prnting Propositions
   while (!secure) {
@@ -96,19 +117,8 @@ int main(int argc, char const *argv[]) {
   //freeing Network
   freeNetwork(ns);
 
+  // Cleanning the Terminal
   system("clear");
-
-  return 0;
-}
-
-void usage(){
-  fprintf(stderr, "usage : nsp <option> [<file.ai>] [<file.data>]\n");
-  fprintf(stderr, "     -c                            creation of a network\n");
-  fprintf(stderr, "     -c <file.ai>                  creation of a default network from data in file.ai\n");
-  fprintf(stderr, "     -l <file.ai> <file.data>      learning from file.data \n");
-  fprintf(stderr, "     -cl <file.data>               creation of a network and learning from file.data\n");
-  fprintf(stderr, "     -cl <file.ai> <file.data>     creation of a default network from data in file.ai and learning from file.data\n");
-  fprintf(stderr, "     -w <file.ai> <file.data>      apply the network on the datas\n\n\n");
 }
 
 void learning(struct Network * ns,const char * data_file){
