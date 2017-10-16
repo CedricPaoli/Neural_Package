@@ -4,7 +4,7 @@
 // Data Structure
 
 // Function
-struct Network * creationManual();
+struct Network * creationManual(struct Network * ns);
 void noCast(char * answer, int n);
 void autoCompletionNetwork(struct Network * ns);
 void manualCompletionNetwork(struct Network * ns);

@@ -4,7 +4,7 @@
 
 #include "nspstd.h"
 
-struct Network * creationManual(){
+struct Network * creationManual(struct Network * ns){
 
   system("clear");
 
@@ -12,9 +12,6 @@ struct Network * creationManual(){
   fprintf(stderr, "                           Manual Neural Network Creation                       \n");
   fprintf(stderr, "                                 General Parameters                             \n");
   fprintf(stderr, "********************************************************************************\n\n");
-
-  struct Network * ns;
-  ns = malloc(sizeof(struct Network));
 
   int i;
   int layer = 0;
@@ -79,8 +76,8 @@ struct Network * creationManual(){
   }
   // [END] Spécifique Initialisation
 
-  printNetwork(ns);
-  freeNetwork(ns);
+  //printNetwork(ns);
+
 
   return ns;
 }
@@ -127,17 +124,17 @@ void autoCompletionNetwork(struct Network * ns){
     //fprintf(stderr, "Couche 0 Neurone %d OK\n",j);
   }
 
-  // layer Ininialisation
+  // Next layer Ininialisation
 
   for (i = 1; i < ns->number_of_layer; i++) {
     for (j = 0; j < ns->number_by_layer[i]; j++) {
-      ns->tab[i][j]=malloc(sizeof(struct Neurone)+sizeof(double)*(ns->number_by_layer[i-1]+1));
+      ns->tab[i][j]=malloc(sizeof(struct Neurone)+sizeof(double)*(ns->number_by_layer[i-1]));
       ns->tab[i][j]->biais = (double)0.0;
       ns->tab[i][j]->value = (double)0.0;
       ns->tab[i][j]->sensibility = (double)0.0;
 
-      ns->tab[i][j]->weight = (double *) malloc(sizeof(double)*(ns->number_by_layer[i-1]+1));
-      for (k = 0; k <= ns->number_by_layer[i-1]; k++) {
+      ns->tab[i][j]->weight = (double *) malloc(sizeof(double)*(ns->number_by_layer[i-1]));
+      for (k = 0; k < ns->number_by_layer[i-1]; k++) {
         ns->tab[i][j]->weight[k] = (double)1.0;
       }
 
@@ -150,7 +147,7 @@ void autoCompletionNetwork(struct Network * ns){
   //printNetwork(ns);
   //ns->tab[1][1]->weight[1]= 2.0;
   //ns->tab[2][0]->biais = 5.5;
-  //printNetwork(ns);
+  printNetwork(ns);
 
   printNetworkAddress(ns);
 
@@ -166,6 +163,8 @@ void manualCompletionNetwork(struct Network * ns){
   int j ;
   int k ;
 
+  // Général @ infos
+
   fprintf(stderr, "General Informations :\n");
   fprintf(stderr, "         - Number of Layer : %d\n", ns->number_of_layer);
   fprintf(stderr, "         - Number by Layer : [ ");
@@ -174,6 +173,7 @@ void manualCompletionNetwork(struct Network * ns){
   }
   fprintf(stderr, "%d ]\n\n", ns->number_by_layer[ns->number_of_layer - 1]);
 
+  // First layer @ infos
   fprintf(stderr, "         ---------------- Layer 0 ----------------\n");
   for (i = 0; i < ns->number_by_layer[0]; i++) {
     fprintf(stderr, "                       <> Neurone %d  : \n", i);
@@ -187,6 +187,8 @@ void manualCompletionNetwork(struct Network * ns){
   }
   fprintf(stderr, "         -----------------------------------------\n\n");
 
+
+  // Next layer @ infos
   for (i = 1; i < ns->number_of_layer; i++) {
     fprintf(stderr, "         ---------------- Layer %d ----------------\n",i);
     for (j = 0; j < ns->number_by_layer[i]; j++) {
@@ -202,7 +204,7 @@ void manualCompletionNetwork(struct Network * ns){
         scanf("%lf", &ns->tab[i][j]->weight[k]);
         fprintf(stderr, "                                        ");
       }
-      scanf("%lf", &ns->tab[i][j]->weight[ns->number_by_layer[i-1]]);
+      scanf("%lf", &ns->tab[i][j]->weight[ns->number_by_layer[i-1]-1]);
     }
     fprintf(stderr, "\n         -----------------------------------------\n\n");
   }
@@ -264,7 +266,7 @@ void printNetwork (struct Network * ns){
       for (k = 0; k < ns->number_by_layer[i-1]-1; k++) {
         fprintf(stderr, "%lf, ", ns->tab[i][j]->weight[k]);
       }
-      fprintf(stderr, "%lf ]\n", ns->tab[i][j]->weight[ns->number_by_layer[i-1]]);
+      fprintf(stderr, "%lf ]\n", ns->tab[i][j]->weight[ns->number_by_layer[i-1]-1]);
     }
     fprintf(stderr, "         -----------------------------------------\n\n");
   }
