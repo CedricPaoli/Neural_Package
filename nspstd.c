@@ -152,6 +152,8 @@ void autoCompletionNetwork(struct Network * ns){
   //ns->tab[2][0]->biais = 5.5;
   //printNetwork(ns);
 
+  printNetworkAddress(ns);
+
   fprintf(stderr, "\n\nAutocompletion finish\n\n");
 
 }
@@ -190,11 +192,11 @@ void manualCompletionNetwork(struct Network * ns){
     for (j = 0; j < ns->number_by_layer[i]; j++) {
       fprintf(stderr, "                       <> Neurone %d  : \n", i);
       fprintf(stderr, "                             - Biais  : ");
-      scanf("%lf", &ns->tab[0][i]->biais);
+      scanf("%lf", &ns->tab[i][j]->biais);
       fprintf(stderr, "                             - Value  : ");
-      scanf("%lf", &ns->tab[0][i]->value);
+      scanf("%lf", &ns->tab[i][j]->value);
       fprintf(stderr, "                             - Sensi  : ");
-      scanf("%lf", &ns->tab[0][i]->sensibility);
+      scanf("%lf", &ns->tab[i][j]->sensibility);
       fprintf(stderr, "                             - weigth : ");
       for (k = 0; k < ns->number_by_layer[i-1]-1; k++) {
         scanf("%lf", &ns->tab[i][j]->weight[k]);
@@ -221,7 +223,7 @@ void freeNetwork(struct Network * ns){
     }
   }
   free(ns->number_by_layer);
-  free(ns);
+  //free(ns);
 }
 
 void printNetwork (struct Network * ns){
@@ -234,7 +236,7 @@ void printNetwork (struct Network * ns){
   fprintf(stderr, "General Informations :\n");
   fprintf(stderr, "         - Number of Layer : %d\n", ns->number_of_layer);
   fprintf(stderr, "         - Number by Layer : [ ");
-  for (i = 0; i < ns->number_of_layer - 1; i++) {
+  for (i = 0; i < ns->number_of_layer-1; i++) {
     fprintf(stderr, "%d, ", ns->number_by_layer[i]);
   }
   fprintf(stderr, "%d ]\n\n", ns->number_by_layer[ns->number_of_layer-1]);
@@ -263,6 +265,57 @@ void printNetwork (struct Network * ns){
         fprintf(stderr, "%lf, ", ns->tab[i][j]->weight[k]);
       }
       fprintf(stderr, "%lf ]\n", ns->tab[i][j]->weight[ns->number_by_layer[i-1]]);
+    }
+    fprintf(stderr, "         -----------------------------------------\n\n");
+  }
+
+}
+
+void printNetworkAddress (struct Network * ns){
+
+  fprintf(stderr, "********************************************************************************\n");
+  fprintf(stderr, "                                  Printing Memory                               \n");
+  fprintf(stderr, "********************************************************************************\n\n");
+
+  int i, j, k;
+
+  fprintf(stderr, "General Infos\n\n");
+  fprintf(stderr, "         Adress Network : %p\n",ns);
+  fprintf(stderr, "                     - number_of_layer   : %p\n",&ns->number_of_layer);
+  fprintf(stderr, "                     - number_by_layer   : %p\n",ns->number_by_layer);
+  fprintf(stderr, "                                           Details :\n");
+  for (i = 0; i < ns->number_of_layer - 1; i++) {
+    fprintf(stderr, "                                                       %p\n", &ns->number_by_layer[i]);
+  }
+  fprintf(stderr, "                                                       %p\n", &ns->number_by_layer[ns->number_of_layer - 1]);
+  fprintf(stderr, "                     - tab               : %p\n",&ns->tab);
+
+
+  fprintf(stderr, "\nInformations by layer :\n\n");
+
+  fprintf(stderr, "         ---------------- Layer 0 : %p ----------------\n",&ns->tab[0]);
+  for (i = 0; i < ns->number_by_layer[0]; i++) {
+    fprintf(stderr, "                       <> Neurone %d  : %p\n", i, ns->tab[0][i]);
+    fprintf(stderr, "                             - Biais  : %p\n", &ns->tab[0][i]->biais);
+    fprintf(stderr, "                             - Value  : %p\n", &ns->tab[0][i]->value);
+    fprintf(stderr, "                             - Sensi  : %p\n", &ns->tab[0][i]->sensibility);
+    fprintf(stderr, "                             - weigth : %p\n",  ns->tab[0][i]->weight);
+  }
+  fprintf(stderr, "         -----------------------------------------\n\n");
+
+  for (i = 1; i < ns->number_of_layer; i++) {
+    fprintf(stderr, "         ---------------- Layer %d : %p ----------------\n",i,&ns->tab[i]);
+    for (j = 0; j < ns->number_by_layer[i]; j++) {
+      fprintf(stderr, "                       <> Neurone %d  : %p\n", j, ns->tab[i][j]);
+      fprintf(stderr, "                             - Biais  : %p\n", &ns->tab[i][j]->biais);
+      fprintf(stderr, "                             - Value  : %p\n", &ns->tab[i][j]->value);
+      fprintf(stderr, "                             - Sensi  : %p\n", &ns->tab[i][j]->sensibility);
+      fprintf(stderr, "                             - weigth : %p\n",  ns->tab[i][j]->weight);
+      fprintf(stderr, "                                       [ ");
+      for (k = 0; k < ns->number_by_layer[i-1]-1; k++) {
+        fprintf(stderr, "%p, ", &ns->tab[i][j]->weight[k]);
+      }
+      fprintf(stderr, "%p ]\n", &ns->tab[i][j]->weight[ns->number_by_layer[i-1]]);
     }
     fprintf(stderr, "         -----------------------------------------\n\n");
   }
