@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "nspstd.h"
+#include "/Neural_Package/headers/nspstd.h"
 
 struct Network * creationManual(struct Network * ns){
 
@@ -99,7 +99,7 @@ void noCast(char * answer,int n){
 
 void autoCompletionNetwork(struct Network * ns){
 
-  fprintf(stderr, "\n\nAutocompletion start\n\n");
+  //fprintf(stderr, "\n\nAutocompletion start\n\n");
 
   int i ;
   int j ;
@@ -147,17 +147,17 @@ void autoCompletionNetwork(struct Network * ns){
   //printNetwork(ns);
   //ns->tab[1][1]->weight[1]= 2.0;
   //ns->tab[2][0]->biais = 5.5;
-  printNetwork(ns);
+  //printNetwork(ns);
 
-  printNetworkAddress(ns);
+  //printNetworkAddress(ns);
 
-  fprintf(stderr, "\n\nAutocompletion finish\n\n");
+  //fprintf(stderr, "\n\nAutocompletion finish\n\n");
 
 }
 
 void manualCompletionNetwork(struct Network * ns){
 
-  fprintf(stderr, "Manual Completion start\n");
+  fprintf(stderr, "\nManual Completion start\n\n");
 
   int i ;
   int j ;
@@ -224,7 +224,7 @@ void freeNetwork(struct Network * ns){
       freeNeuron(ns->tab[i][j]);
     }
   }
-  free(ns->number_by_layer);
+  //free(ns->number_by_layer);
   //free(ns);
 }
 

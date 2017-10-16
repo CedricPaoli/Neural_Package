@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "nspio.h"
+#include "/Neural_Package/headers/nspio.h"
 
 
 void loadNeurone(struct Network * ns, FILE * file, int i, int j){
@@ -27,10 +27,6 @@ void loadNeurone(struct Network * ns, FILE * file, int i, int j){
   }
 
 
-
-}
-
-void saveNeuron(struct Neurone * n){
 
 }
 
@@ -94,10 +90,36 @@ void saveNetwork (struct Network * ns){
   fprintf(stderr, "                                  Save Neural Network                           \n");
   fprintf(stderr, "********************************************************************************\n\n");
 
-  char file_name[MAX_LENGTH_FILE_NAME];
-  fprintf(stderr, "Please enter the file's name without extentions : ");
-  scanf("%s",file_name);
-  fprintf(stderr, "%s\n",file_name);
+  int i,j,k;
+  FILE * file;
 
+  // Openning of the file
+  file = fopen(SAVING_FILE_NAME,"w+");
+  if (file == NULL) {
+    fprintf(stderr, "error : oppening fail for saving file \n" );
+  }else {
+    // BEGINNING writting the first line
+    fprintf(file, "%d ", ns->number_of_layer);
+    for (i = 0; i < ns->number_of_layer; i++) {
+      fprintf(file, "%d ", ns->number_by_layer[i]);
+    }
+    fprintf(file, "\n");
+    // END
 
+    // BEGINNING Saving of the neurons
+    for (i = 0; i < ns->number_of_layer; i++) {
+      for (j = 0; j < ns->number_by_layer[i]; j++) {
+        fprintf(file, "%f %f %f ", ns->tab[i][j]->biais,ns->tab[i][j]->value,ns->tab[i][j]->sensibility);
+        if(i!=0){
+          for (k = 0; k < ns->number_by_layer[i-1]; k++) {
+            fprintf(file, "%f ", ns->tab[i][j]->weight[k]);
+          }
+        }
+        fprintf(file, "\n");
+      }
+    }
+    // END
+
+    fclose(file);
+  }
 }
