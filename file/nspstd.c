@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 #include "/Neural_Package/headers/nspstd.h"
 
@@ -76,8 +77,9 @@ struct Network * creationManual(struct Network * ns){
   }
   // [END] Spécifique Initialisation
 
-  //printNetwork(ns);
-
+  printNetwork(ns);
+  propagation(ns);
+  printNetwork(ns);
 
   return ns;
 }
@@ -324,4 +326,90 @@ void printNetworkAddress (struct Network * ns){
 
 }
 
+void learningRetroPropagation(struct Network * ns,const char * data_file) {
+
+  system("clear");
+
+  fprintf(stderr, "********************************************************************************\n");
+  fprintf(stderr, "                             Neural Network Learning by                         \n");
+  fprintf(stderr, "                                 Retropropagation :D                               \n");
+  fprintf(stderr, "********************************************************************************\n\n");
+
+  FILE * file ;
+  int i,j ;
+  int num_by_elem;
+  int num_of_elem;
+
+  double alpha;
+
+  char c;
+  // the size of the datas must match the size of the first layer
+  int data_size = ns->number_by_layer[0];
+
+  // Openning data file
+  file=fopen(data_file,"r+");
+  // Securing code
+  if (file!=NULL) {
+    fscanf(file,"%d \n",&num_of_elem);
+
+    fprintf(stderr, "How many time would you like to train for each elements ? ");
+    scanf("%d",&num_by_elem );
+    fprintf(stderr, "\nWhat is the coeficient to apply ? ");
+    scanf("%lf",&alpha);
+
+    for (i = 0; i < num_of_elem; i++) {
+      // Loading of a data set
+      for (j = 0; j < data_size; j++) {
+        fscanf(file,"%lf ",&ns->tab[0][i]->value);
+      }
+      fscanf(file,"%c",&c);
+
+      // Learning Loop
+      for (j = 0; j < num_by_elem; j++) {
+        propagation(ns);
+        retropropagation(ns,alpha);
+      }
+    }
+
+    fclose(file);
+
+  } else{
+    fprintf(stderr, "error : failing during openning of data file %s\n", data_file);
+  }
+
+}
+
+void propagation(struct Network * ns) {
+
+  int i,j;
+
+  for (i = 1; i < ns->number_of_layer; i++) {
+    for (j = 0; j < ns->number_by_layer[i]; j++) {
+      ns->tab[i][j]->value = sigmoide(ns,i,j);
+    }
+  }
+}
+
+void retropropagation(struct Network * ns, double alpha) {
+
+  // Yolo
+
+}
+
+double sigmoide(struct Network * ns, int i, int j){
+
+  int k;
+  double sum = 0.0;
+  double sig;
+
+  // Pondered sum
+  for (k = 0; k < ns->number_by_layer[i-1]; k++) {
+    sum += ns->tab[i][j]->weight[k]*ns->tab[i-1][k]->value;
+  }
+
+  // Calcul of the activation
+  sig = 1.0/(1+exp(-sum));
+
+  return sig;
+}
 /// END
