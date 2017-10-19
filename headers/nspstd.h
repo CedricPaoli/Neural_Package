@@ -14,7 +14,8 @@ void freeNeuron(struct Neurone * n);
 void freeNetwork(struct Network * ns);
 void learningRetroPropagation(struct Network * ns,const char * data_file);
 void propagation(struct Network * ns);
-void retropropagation(struct Network * ns,double alpha);
+void retropropagationSig(struct Network * ns,double alpha,FILE * data_file);
 double sigmoide(struct Network * ns, int i, int j);
+double updateSensibility(struct Network * ns, int i, int j);
 
 // END

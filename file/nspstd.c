@@ -336,6 +336,7 @@ void learningRetroPropagation(struct Network * ns,const char * data_file) {
   fprintf(stderr, "********************************************************************************\n\n");
 
   FILE * file ;
+
   int i,j ;
   int num_by_elem;
   int num_of_elem;
@@ -350,6 +351,7 @@ void learningRetroPropagation(struct Network * ns,const char * data_file) {
   file=fopen(data_file,"r+");
   // Securing code
   if (file!=NULL) {
+
     fscanf(file,"%d \n",&num_of_elem);
 
     fprintf(stderr, "How many time would you like to train for each elements ? ");
@@ -367,7 +369,7 @@ void learningRetroPropagation(struct Network * ns,const char * data_file) {
       // Learning Loop
       for (j = 0; j < num_by_elem; j++) {
         propagation(ns);
-        retropropagation(ns,alpha);
+        retropropagationSig(ns,alpha,file);
       }
     }
 
@@ -390,9 +392,36 @@ void propagation(struct Network * ns) {
   }
 }
 
-void retropropagation(struct Network * ns, double alpha) {
+void retropropagationSig(struct Network * ns, double alpha,FILE * data_file) {
 
-  // Yolo
+
+  double * datas ;
+  int i,j;
+  char c;
+
+  datas = malloc(sizeof(double)*ns->number_by_layer[ns->number_of_layer-1]);
+
+  // BEGINNIG Loading of datas
+  for (i = 0; i < ns->number_by_layer[ns->number_of_layer-1]; i++) {
+    fscanf(data_file,"%lf ",&datas[i]);
+  }
+  fscanf(data_file,"%c",&c);
+  // END
+
+  // BEGINNING Updating the sensibilities in the Network (do not count First Layer)
+
+  // Ini. of the sensi for the last layer
+  for (i = 0; i < ns->number_of_layer-1; i++) {
+    ns->tab[ns->number_of_layer-1][i]->sensibility = datas[i]-ns->tab[ns->number_of_layer-1][i]->value;
+  }
+
+  // Previous Layers
+  for (i = 1; i < ns->number_of_layer-1; i++) {
+    // Going back from Last Layer to the first ones
+    for (j = 0; j < ns->number_by_layer[ns->number_of_layer-1-i]-1; j++) {
+      ns->tab[ns->number_of_layer-1-i][j]->sensibility = updateSensibility(ns,ns->number_of_layer-1-i,j);
+    }
+  }
 
 }
 
@@ -412,4 +441,21 @@ double sigmoide(struct Network * ns, int i, int j){
 
   return sig;
 }
-/// END
+
+double updateSensibility(struct Network * ns, int i, int j){
+
+  double sensi;
+  int k;
+
+  // Looking of the weight of the next layer (propagation direct.)
+  for (k = 1; k < ns->number_by_layer[i+1]-1; k++) {
+    sensi = ns->tab[i-1][k]->weight[j]*ns->tab[i-1][k]->sensibility;
+  }
+
+  sensi = sensi * ns->tab[i][j]->value * (1.0-ns->tab[i][j]->value);
+
+  return sensi;
+
+}
+
+// END
