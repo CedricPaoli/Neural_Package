@@ -43,7 +43,7 @@ int main(int argc, char const *argv[]) {
     case 4:
       if (!strcmp(argv[1],"-l")) {
         ns = loadNetwork(argv[2]);
-        learning(ns,argv[3]);
+        learningRetroPropagation(ns,argv[3]);
         validMain(ns);
       } else if (strcmp(argv[1],"-cl")) {
         ns = creationAuto(ns,argv[2]);
@@ -132,6 +132,7 @@ void working(struct Network * ns,const char * data_file){
 }
 
 struct Network * loadNetwork(const char * ai_file){
-  struct Network * ns = NULL;
+  struct Network * ns = malloc(sizeof(struct Network));
+  creationAuto(ns,ai_file);
   return ns;
 }
