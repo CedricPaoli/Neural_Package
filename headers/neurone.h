@@ -1,7 +1,6 @@
-/*#include "nspio.h"
-#include "nspstd.h"
+
 // PreProc variable
-*/
+
 // Data Structure
 enum typestruct { SIMPLE, GRAPH };
 
