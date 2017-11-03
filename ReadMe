@@ -1,0 +1,18 @@
+Project Neural System Package v0
+
+All the project is under GNU license
+
+Creator of the current project : Cédric Paoli
+Other contributor : NONE
+
+How to use :
+nsp <option> [<file.ai>] [<file.data>]
+-c                            creation of a network
+-c  <file.ai>                 creation of a default network from data in file.ai
+-l  <file.ai> <file.data>     learning from file.data
+-w  <file.ai> <file.data>     apply the network on the datas
+
+Options currently available in this version :
+-c
+-c  <file.ai>
+-l  <file1.ai> <file.data>
